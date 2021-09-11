@@ -81,3 +81,12 @@ class GitHubStream(RESTStream):
 
         for row in results:
             yield row
+
+    def has_selected_descendents(self):
+        """
+        Overloads the sdk property which is used to force syncing parent streams
+        if a child stream is selected. We do not want this for ovio, hence this
+        ugly override, which can remain internal :)
+        See https://gitlab.com/meltano/sdk/-/issues/217 for details
+        """
+        return False
