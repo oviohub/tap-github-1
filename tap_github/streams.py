@@ -740,6 +740,15 @@ class PullRequestsStream(GitHubStream):
         headers["Accept"] = "application/vnd.github.squirrel-girl-preview"
         return headers
 
+    def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
+        if row["body"] is not None:
+            # some pr bodies include control characters such as \x00
+            # that some targets (such as postgresql) choke on. This ensures
+            # such chars are removed from the data before we pass it on to
+            # the target
+            row["body"] = row["body"].encode("utf-8", errors="ignore").decode()
+        return row
+
     schema = th.PropertiesList(
         # Parent keys
         th.Property("repo", th.StringType),
