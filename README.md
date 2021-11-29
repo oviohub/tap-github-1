@@ -16,23 +16,24 @@ pipx install git+https://github.com/MeltanoLabs/tap-github.git
 
 This tap accepts the following configuration options:
 
-- Required: One and only one of the following:
+- Required: One and only one of the following modes:
   1. `repositories`: an array of strings containing the github repos to be included
   2. `organizations`: an array of strings containing the github organizations to be included
   3. `searches`: an array of search descriptor objects with the following properties:
      - `name`: a human readable name for the search query
      - `query`: a github search string (generally the same as would come after `?q=` in the URL)
+  4. `user_usernames`: a list of github usernames
+  5. `user_ids`: a list of github user ids [int]
 - Highly recommended:
-  - `auth_token` - GitHub token to authenticate with.
-  - `additional_auth_tokens` - List of GitHub tokens to authenticate with. Streams will loop through them when hitting rate limits..
-  - alternatively, you can input auth tokens with any environment variables starting with GITHUB_TOKEN.
+  - `auth_token` -
 - Optional:
   - `user_agent`
   - `start_date`
   - `metrics_log_level`
   - `stream_maps`
   - `stream_maps_config`
-  - `rate_limit_buffer` - A buffer to avoid consuming all query points for the auth_token at hand. Defaults to 1000.",
+
+Note that 1-3 are `repository` modes and 4-5 are `user` modes and will not run the same set of streams.
 
 A full list of supported settings and capabilities for this
 tap is available by running:
